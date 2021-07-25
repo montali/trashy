@@ -44,8 +44,8 @@ class SatDownloader():
             lat += random.uniform(0.00001, 0.0001)
             lon += random.uniform(0.00001, 0.0001)
         else:
-            lat += random.uniform(0.0001, 0.001)
-            lon += random.uniform(0.0001, 0.001)
+            lat += random.uniform(0.1, 1)
+            lon += random.uniform(0.1, 1)
         return f"{round(lat,7)},{round(lon,7)}" 
 
     def get_trash(self):
@@ -54,12 +54,12 @@ class SatDownloader():
             # Get images for trash and non-trash, according to the +/- ratio
             for i in range(int(self.ratio*10)):
                 try:
-                    self.download_image(self.get_random_coordinates(row["Link"], trash=True), row["Size"], "data/images/trash")
+                    self.download_image(self.get_random_coordinates(row["Link"], trash=True), row["Size"], "data/images/newtrash")
                 except AttributeError:
                     pass
             for j in range(int((1-self.ratio)*10)):
                 try:
-                    self.download_image(self.get_random_coordinates(row["Link"], trash=False), row["Size"], "data/images/nontrash")
+                    self.download_image(self.get_random_coordinates(row["Link"], trash=False), row["Size"], "data/images/newnontrash")
                 except AttributeError:
                     break
 

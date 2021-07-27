@@ -4,6 +4,13 @@ from datetime import timedelta, datetime
 import time
 import re
 from selenium.webdriver.common.action_chains import ActionChains
+from wand.image import Image
+# Require wand's API library and basic ctypes
+from wand.api import library
+from ctypes import c_void_p, c_size_t
+
+# Tell Python's wand library about the MagickWand Compression Quality (not Image's Compression Quality)
+library.MagickSetCompressionQuality.argtypes = [c_void_p, c_size_t]
 
 
 def get_current_coordinates(driver):
@@ -25,7 +32,7 @@ def move_map(driver, x, y):
 driver = webdriver.Firefox()
 driver.implicitly_wait(5)
 driver.get("https://maps.google.com")
-print("Everything is set up. Now, please log in with your Google user and do shit that makes captcha trigger")
+print("Everything is set up. Accept the cookies pls.")
 start = datetime.now()
 while datetime.now() < start+timedelta(seconds=5):
     pass
@@ -46,6 +53,12 @@ while lat > last_lat:
         move_map(driver, 100, 0)
         lat, lon = get_current_coordinates(driver)
         driver.save_screenshot(f"{lat},{lon}.png")
+        with Image(filename=f"{lat},{lon}.png") as img:
+            img.resize(width=1280, height=811)
+            # Set the optimization level through the linked resources of
+            # the image instance. (i.e. `wand.image.Image.wand`)
+            library.MagickSetCompressionQuality(img.wand, 40)
+            img.save(filename=f"{lat},{lon}.jpg")
     move_map(driver, 0, 100)
     time.sleep(2)
     lat, lon = get_current_coordinates(driver)

@@ -1,2 +1,13 @@
 .DS_Store
 */.DS_Store
+logs/fit/20210726-145321/train/events.out.tfevents.1627304070.scossa.lan.3904.126.v2
+logs/fit/20210726-145321/train/events.out.tfevents.1627304093.scossa.lan.profile-empty
+logs/fit/20210726-145321/train/plugins/profile/2021_07_26_14_54_53/scossa.lan.input_pipeline.pb
+logs/fit/20210726-145321/train/plugins/profile/2021_07_26_14_54_53/scossa.lan.kernel_stats.pb
+logs/fit/20210726-145321/train/plugins/profile/2021_07_26_14_54_53/scossa.lan.memory_profile.json.gz
+logs/fit/20210726-145321/train/plugins/profile/2021_07_26_14_54_53/scossa.lan.overview_page.pb
+logs/fit/20210726-145321/train/plugins/profile/2021_07_26_14_54_53/scossa.lan.tensorflow_stats.pb
+logs/fit/20210726-145321/train/plugins/profile/2021_07_26_14_54_53/scossa.lan.trace.json.gz
+logs/fit/20210726-145321/train/plugins/profile/2021_07_26_14_54_53/scossa.lan.xplane.pb
+scraper/geckodriver.log
+.ipynb_checkpoints/Trashy-checkpoint.ipynb

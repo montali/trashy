@@ -28,17 +28,13 @@ def move_map(driver, x, y):
     actions.drag_and_drop_by_offset(
         maps, x, y).perform()
 
+
 def remove_labels(driver):
-    actions = ActionChains(driver)
-    
-    hoverElement = driver.find_element_by_class_name("QNI8Sb-minimap-UDotu-LgbsSe")
-    actions.move_to_element(hoverElement).perform()
-    time.sleep(2)
-    driver.find_element_by_class_name("QotPpe-LJSvSb-cdLCv-mAKE4e-z5C9Gb").click()
-    time.sleep(2)
-    driver.find_element_by_xpath("//label[contains(@class, 't9hXV-cdLCv-checkbox-V67aGc') and contains(text(), 'Etichette')]").click()
-    time.sleep(1)
-    driver.find_element_by_class_name("t9hXV-cdLCv-icon-TvD9Pc").click()
+    try:
+        driver.execute_script(
+            'st=document.createElement("style");st.type="text/css";st.appendChild(document.createTextNode("\\#omnibox-container, #minimap, .app-viewcard-strip,#vasquette,.scene-footer-container {display:none;}"));document.getElementsByTagName("head")[0].appendChild(st)')
+    except Exception as e:
+        print(e)
 
 
 driver = webdriver.Firefox()

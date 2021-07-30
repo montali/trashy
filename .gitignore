@@ -5,3 +5,5 @@ scraper/geckodriver.log
 geckodriver.log
 logs/*
 training_1/*
+.ipynb_checkpoints/*
+saved_model/*

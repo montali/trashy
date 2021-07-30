@@ -57,6 +57,7 @@ class SatDownloader():
         url = f"https://www.google.com/maps/@{str(coordinates)},43m/data=!3m1!1e3!5m1!1e4"
         self.driver.get(url)
         time.sleep(2)
+        self.remove_labels()
         self.driver.save_screenshot(f"{coordinates}.png")
         with Image(filename=f"{coordinates}.png") as img:
             img.resize(width=1280, height=811)
@@ -96,6 +97,13 @@ class SatDownloader():
                         row["Link"], trash=False), row["Size"], "data/images/newnontrash")
                 except AttributeError:
                     break
+
+    def remove_labels(self):
+        try:
+            self.driver.execute_script(
+                'st=document.createElement("style");st.type="text/css";st.appendChild(document.createTextNode("\\#omnibox-container, #minimap, .app-viewcard-strip,#vasquette,.scene-footer-container {display:none;}"));document.getElementsByTagName("head")[0].appendChild(st)')
+        except Exception as e:
+            print(e)
 
 
 if __name__ == "__main__":

@@ -3,12 +3,14 @@ from PIL import Image
 from datetime import timedelta, datetime
 import time
 import re
+import os
 from selenium.webdriver.common.action_chains import ActionChains
 from wand.image import Image
 # Require wand's API library and basic ctypes
 from wand.api import library
 from ctypes import c_void_p, c_size_t
-
+import tensorflow as tf
+from tensorflow import keras
 # Tell Python's wand library about the MagickWand Compression Quality (not Image's Compression Quality)
 library.MagickSetCompressionQuality.argtypes = [c_void_p, c_size_t]
 
@@ -61,6 +63,7 @@ time.sleep(3)
 driver.get(map_url)
 remove_labels(driver)
 action = ActionChains(driver)
+model = tf.keras.models.load_model('../saved_model/nn')
 while lat <= last_lat:
     lon = start_lon
     while lon >= last_lon:
@@ -74,6 +77,14 @@ while lat <= last_lat:
             # the image instance. (i.e. `wand.image.Image.wand`)
             library.MagickSetCompressionQuality(img.wand, 40)
             img.save(filename=f"{lat},{lon}.jpg")
+            os.remove(f"{lat},{lon}.png")
+            test_image = keras.preprocessing.image.load_img(f"{lat},{lon}.jpg")
+            img_array = keras.preprocessing.image.img_to_array(test_image)
+            img_array = tf.expand_dims(img_array, 0)  # Create a batch
+            trashiness = tf.nn.softmax(model.predict(img_array))
+            print(
+                f"Place {lat},{lon} is {trashiness[0][1]*100}% trashy")
+            os.remove(f"{lat},{lon}.jpg")
     move_map(driver, 0, 100)
     time.sleep(2)
     lat, lon = get_current_coordinates(driver)
